@@ -1,13 +1,5 @@
-# basic-go-repo
+# Otto-Client
 
-Template for my go template ( tired to copy past )
+Repository used to stored my client to interact with my API. Purpose is to used this client in different project that need to interact with the API
 
-## Setup
-
-1. Run init command
-
-```bash
-go mod init <project_name>
-```
-
-2. No second steps!
+-   TODO: Make a readme
