@@ -5,6 +5,9 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var baseUrlTest = "http://localhost:8888"
@@ -25,4 +28,18 @@ func setupTest() (client *Client, mux *http.ServeMux, serverURL string, teardown
 	client = NewClient(nil, server.URL)
 
 	return client, apiHandler, server.URL, server.Close
+}
+
+func TestClientGetChatUrl(t *testing.T) {
+	client := NewClient(nil, baseUrlTest)
+
+	url := client.GetChatUrl("chatId", "threadId", "/test")
+	assert.Equal(t, baseUrlTest+"/chats/chatId/threadId/test", url)
+}
+
+func TestClientGetChatUrlWithoutThreadId(t *testing.T) {
+	client := NewClient(nil, baseUrlTest)
+
+	url := client.GetChatUrl("chatId", "", "/test")
+	assert.Equal(t, baseUrlTest+"/chats/chatId/test", url)
 }
