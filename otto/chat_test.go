@@ -47,7 +47,7 @@ func TestChatCreate(t *testing.T) {
 		assert.Equal(t, tags, body.Tags, "Tags should match expected value")
 
 		out, _ := json.Marshal(&ChatCreateResponse{Chat: expectedResponse})
-		fmt.Print(w, string(out))
+		fmt.Fprint(w, string(out))
 	})
 
 	res := client.Chat.Create(chatId, userId, threadId, tags)
@@ -85,7 +85,7 @@ func TestChatCreateWithoutThreadId(t *testing.T) {
 		assert.Equal(t, tags, body.Tags, "Tags should match expected value")
 
 		out, _ := json.Marshal(&ChatCreateResponse{Chat: expectedResponse})
-		fmt.Print(string(out))
+		fmt.Fprint(w, string(out))
 	})
 
 	res := client.Chat.Create(chatId, userId, "", tags)

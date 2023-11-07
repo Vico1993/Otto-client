@@ -9,7 +9,7 @@ import (
 )
 
 type Chat struct {
-	Id               string     `json:"id"`
+	Id               string     `json:"Id"`
 	TelegramChatId   string     `json:"TelegramChatId"`
 	TelegramUserId   string     `json:"TelegramUserId"`
 	TelegramThreadId string     `json:"TelegramThreadId"`
