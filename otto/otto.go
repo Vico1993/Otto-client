@@ -12,7 +12,7 @@ type service struct {
 }
 
 type Client struct {
-	baseUrl string
+	BaseURL string
 	client  *http.Client // HTTP client used to communicate with the API.
 
 	common service
@@ -22,7 +22,7 @@ type Client struct {
 
 // Create a new client to communicate with Otto
 func NewClient(httpClient *http.Client, baseUrl string) *Client {
-	c := &Client{client: httpClient, baseUrl: baseUrl}
+	c := &Client{client: httpClient, BaseURL: baseUrl}
 
 	// Initialise the client
 	c.init()

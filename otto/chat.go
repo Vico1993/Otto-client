@@ -13,7 +13,7 @@ type Chat struct {
 	TelegramChatId   string     `json:"TelegramChatId"`
 	TelegramUserId   string     `json:"TelegramUserId"`
 	TelegramThreadId string     `json:"TelegramThreadId"`
-	Tags             string     `json:"Tags"`
+	Tags             []string   `json:"Tags"`
 	LastTimeParsed   *time.Time `json:"LastTimeParsed"`
 }
 
@@ -39,7 +39,7 @@ func (s *ChatService) Create(chatId string, userId string, threadId string, tags
 	data := []byte(dataStr)
 	req, err := http.NewRequest(
 		http.MethodPost,
-		s.client.baseUrl+"/chats", // TODO: Change ? move this in main.go
+		s.client.BaseURL+"/chats", // TODO: Change ? move this in main.go
 		strings.NewReader(
 			string(data),
 		),
