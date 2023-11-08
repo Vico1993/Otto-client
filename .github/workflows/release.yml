@@ -25,4 +25,4 @@ jobs:
                   distribution: goreleaser
                   version: latest
                   args: release --clean
-                  workdir: ./internal
+                  workdir: ./otto
