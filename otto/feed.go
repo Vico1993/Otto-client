@@ -86,8 +86,8 @@ func (s *FeedService) Create(url string) *Feed {
 	return &res.Feed
 }
 
-// Disable a feed from a chat id and thread id
-func (s *FeedService) Disable(chatId string, threadId string, feedId string) bool {
+// UnLink a feed from a chat id and thread id
+func (s *FeedService) UnLink(chatId string, threadId string, feedId string) bool {
 	req, err := http.NewRequest("DELETE", s.client.GetChatUrl(chatId, threadId, "/feeds/"+feedId), nil)
 	if err != nil {
 		fmt.Println("Error creating the request to disabled the feed in chat: " + err.Error())

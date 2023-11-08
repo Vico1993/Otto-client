@@ -18,6 +18,7 @@ type Client struct {
 	common service
 
 	Chat *ChatService
+	Feed *FeedService
 }
 
 // Create a new client to communicate with Otto
@@ -38,6 +39,7 @@ func (c *Client) init() {
 	c.common.client = c
 
 	c.Chat = (*ChatService)(&c.common)
+	c.Feed = (*FeedService)(&c.common)
 }
 
 // Execute the request that the client received
