@@ -18,6 +18,7 @@ type Client struct {
 	common service
 
 	Chat *ChatService
+	Feed *FeedService
 }
 
 // Create a new client to communicate with Otto
@@ -38,6 +39,7 @@ func (c *Client) init() {
 	c.common.client = c
 
 	c.Chat = (*ChatService)(&c.common)
+	c.Feed = (*FeedService)(&c.common)
 }
 
 // Execute the request that the client received
@@ -58,4 +60,14 @@ func (c *Client) Do(req *http.Request) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+// Build chat url if thread if present or not
+func (c *Client) GetChatUrl(chatId string, threadId string, path string) string {
+	url := c.BaseURL + "/chats/" + chatId + path
+	if threadId != "" {
+		url = c.BaseURL + "/chats/" + chatId + "/" + threadId + path
+	}
+
+	return url
 }
