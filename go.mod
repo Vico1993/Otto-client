@@ -1,4 +1,4 @@
-module github.com/Vico1993/otto-client
+module github.com/Vico1993/Otto-client/v1
 
 go 1.20
 
