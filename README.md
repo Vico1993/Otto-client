@@ -9,7 +9,7 @@ Struture of the client look like https://github.com/google/go-github project, li
 _Otto-client_ is compatible with modern Go releases in module mode, with Go installed:
 
 ```bash
-go get github.com/Vico1993/Otto-client/v1
+go get github.com/Vico1993/Otto-client
 ```
 
 will resolve and add the package to the current development module, along with its dependencies.
@@ -17,7 +17,7 @@ will resolve and add the package to the current development module, along with i
 Alternatively the same can be achieved if you use import in a package:
 
 ```go
-import "github.com/Vico1993/Otto-client/v1/otto"
+import "github.com/Vico1993/Otto-client/otto"
 ```
 
 and run go get without parameters.
@@ -25,7 +25,7 @@ and run go get without parameters.
 Finally, to use the top-of-trunk version of this repo, use the following command:
 
 ```bash
-go get github.com/Vico1993/Otto-client/v1@main
+go get github.com/Vico1993/Otto-client@main
 ```
 
 # Usages
