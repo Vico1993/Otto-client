@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Vico1993/Otto-client/v1/otto"
+	"github.com/Vico1993/Otto-client/otto"
 )
 
 var baseUrl = "http://localhost:8888"
