@@ -16,6 +16,10 @@ type FeedListResponse struct {
 	Feeds []Feed `json:"feeds"`
 }
 
+type FeedListArticlesResponse struct {
+	Articles []Article `json:"articles"`
+}
+
 type FeedCreateResponse struct {
 	Feed Feed `json:"feed"`
 }
@@ -131,4 +135,60 @@ func (s *FeedService) Link(chatId string, threadId string, feedId string) bool {
 	_ = json.Unmarshal(body, &res)
 
 	return res.Added
+}
+
+// List all Feeds
+// With active parameters you can retrieve only active feeds
+func (s *FeedService) ListAll(active bool) []Feed {
+	url := s.client.BaseURL + "/feeds"
+	if active {
+		url = url + "/active"
+	}
+
+	req, err := http.NewRequest(
+		http.MethodGet,
+		url,
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to list all feeds: " + err.Error())
+		return nil
+	}
+
+	body, err := s.client.Do(req)
+	if err != nil {
+		return nil
+	}
+
+	var res FeedListResponse
+	_ = json.Unmarshal(body, &res)
+
+	return res.Feeds
+}
+
+// Retrieve Feed articles
+func (s *FeedService) ListArticles(feedId string) []Article {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		s.client.BaseURL+"/feeds/"+feedId+"/articles",
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to list articles: " + err.Error())
+		return nil
+	}
+
+	body, err := s.client.Do(req)
+	if err != nil {
+		return nil
+	}
+
+	var res FeedListArticlesResponse
+	_ = json.Unmarshal(body, &res)
+
+	return res.Articles
 }

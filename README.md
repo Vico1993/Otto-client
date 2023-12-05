@@ -1,5 +1,7 @@
 # Otto-Client
 
+[![Coverage Status](https://coveralls.io/repos/github/Vico1993/Otto-client/badge.svg?branch=main)](https://coveralls.io/github/Vico1993/Otto-client?branch=main)
+
 Repository used to stored my client to interact with my API. Purpose is to used this client in different project that need to interact with the API
 
 Struture of the client look like https://github.com/google/go-github project, liked there structure and try to follow it!

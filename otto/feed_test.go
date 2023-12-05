@@ -82,3 +82,49 @@ func TestLinkFeed(t *testing.T) {
 	res := client.Feed.Link("chatId", "", "feedId")
 	assert.True(t, res)
 }
+
+func TestListAllFeed(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
+	mux.HandleFunc("/feeds", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a GET
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		feed := &Feed{
+			Id:  "1",
+			Url: "https://google.com",
+		}
+
+		out, _ := json.Marshal(&FeedListResponse{Feeds: []Feed{*feed}})
+		fmt.Fprint(w, string(out))
+	})
+
+	res := client.Feed.ListAll(false)
+
+	assert.Len(t, res, 1)
+	assert.Equal(t, res[0].Url, "https://google.com")
+}
+
+func TestListAllActiveFeed(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
+	mux.HandleFunc("/feeds/active", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a GET
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		feed := &Feed{
+			Id:  "1",
+			Url: "https://google.com",
+		}
+
+		out, _ := json.Marshal(&FeedListResponse{Feeds: []Feed{*feed}})
+		fmt.Fprint(w, string(out))
+	})
+
+	res := client.Feed.ListAll(true)
+
+	assert.Len(t, res, 1)
+	assert.Equal(t, res[0].Url, "https://google.com")
+}
