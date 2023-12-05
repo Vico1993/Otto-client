@@ -132,3 +132,34 @@ func (s *FeedService) Link(chatId string, threadId string, feedId string) bool {
 
 	return res.Added
 }
+
+// List all Feeds
+// With active parameters you can retrieve only active feeds
+func (s *FeedService) ListAll(active bool) []Feed {
+	url := s.client.BaseURL + "/feeds"
+	if active {
+		url = url + "/active"
+	}
+
+	req, err := http.NewRequest(
+		http.MethodGet,
+		url,
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to list all feeds: " + err.Error())
+		return nil
+	}
+
+	body, err := s.client.Do(req)
+	if err != nil {
+		return nil
+	}
+
+	var res FeedListResponse
+	_ = json.Unmarshal(body, &res)
+
+	return res.Feeds
+}
