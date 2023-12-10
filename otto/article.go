@@ -21,6 +21,10 @@ type ArticleCreateResponse struct {
 	Article Article `json:"article"`
 }
 
+type ArticleListLatestResponse struct {
+	Articles []Article `json:"articles"`
+}
+
 type ArticleService service
 
 // Create a Article for a specific feed Id
@@ -57,4 +61,29 @@ func (s *ArticleService) Create(feedId string, title string, source string, link
 	_ = json.Unmarshal(body, &res)
 
 	return &res.Article
+}
+
+// ListLatestArticles all latest articles from chats
+func (s *ChatService) ListLatestArticles(chatId string) []Article {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		s.client.BaseURL+"/chats/"+chatId+"/articles/latest",
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to list all latest articles from chat: " + err.Error())
+		return nil
+	}
+
+	body, err := s.client.Do(req)
+	if err != nil {
+		return nil
+	}
+
+	var res ArticleListLatestResponse
+	_ = json.Unmarshal(body, &res)
+
+	return res.Articles
 }

@@ -60,3 +60,37 @@ func TestCreateArticle(t *testing.T) {
 	res := client.Article.Create(feedId, title, source, link, author, tags)
 	assert.Equal(t, res.Title, "Super article")
 }
+
+func TestListLatestArticles(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
+	feedId := "1"
+	title := "Super article"
+	source := "source.com"
+	link := "https://source.com/article-1"
+	author := "John Doe"
+	tags := []string{"tags1", "tags2"}
+
+	mux.HandleFunc("/chats/chatId/articles/latest", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a Get
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		article := Article{
+			Id:     "0",
+			FeedId: feedId,
+			Title:  title,
+			Source: source,
+			Link:   link,
+			Author: author,
+			Tags:   tags,
+		}
+
+		out, _ := json.Marshal(&ArticleListLatestResponse{Articles: []Article{article}})
+		fmt.Fprint(w, string(out))
+	})
+
+	res := client.Chat.ListLatestArticles("chatId")
+	assert.Len(t, res, 1)
+	assert.Equal(t, res[0].Title, title)
+}
