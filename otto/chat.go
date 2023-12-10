@@ -89,3 +89,23 @@ func (s *ChatService) ListAll() []Chat {
 
 	return res.Chats
 }
+
+// UpdateParsedTime used to update db
+func (s *ChatService) UpdateParsedTime(chatId string) {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		s.client.BaseURL+"/chats/"+chatId+"/parsed",
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to update parsed time for chat: " + err.Error())
+		return
+	}
+
+	_, err = s.client.Do(req)
+	if err != nil {
+		return
+	}
+}
