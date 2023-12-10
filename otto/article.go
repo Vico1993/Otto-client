@@ -64,10 +64,10 @@ func (s *ArticleService) Create(feedId string, title string, source string, link
 }
 
 // ListLatestArticles all latest articles from chats
-func (s *ChatService) ListLatestArticles(chatId string) []Article {
+func (s *ChatService) ListLatestArticles(chatId string, threadId string) []Article {
 	req, err := http.NewRequest(
 		http.MethodGet,
-		s.client.BaseURL+"/chats/"+chatId+"/articles/latest",
+		s.client.GetChatUrl(chatId, threadId, "/articles/latest"),
 		strings.NewReader(
 			string([]byte{}),
 		),
