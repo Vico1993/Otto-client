@@ -15,7 +15,7 @@ func main() {
 		baseUrl,
 	)
 
-	articles := client.Chat.ListLatestArticles("882341815")
+	articles := client.Chat.ListLatestArticles("1111", "3")
 	for _, article := range articles {
 		fmt.Println(article.Title)
 	}
