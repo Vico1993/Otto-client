@@ -57,7 +57,7 @@ func (c *Client) Do(req *http.Request) ([]byte, error) {
 	defer response.Body.Close()
 
 	body, _ := io.ReadAll(response.Body)
-	if response.StatusCode != http.StatusOK {
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusNoContent {
 		fmt.Println("Api respond with status code: " + strconv.Itoa(response.StatusCode))
 		fmt.Println(string(body))
 		return []byte{}, err

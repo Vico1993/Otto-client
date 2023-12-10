@@ -124,3 +124,17 @@ func TestChatGetAll(t *testing.T) {
 	assert.Len(t, res, 1)
 	assert.Equal(t, res[0].TelegramChatId, chatId)
 }
+
+func TestUpdateParsedTime(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
+	mux.HandleFunc("/chats/chatId/parsed", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a GET
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	client.Chat.UpdateParsedTime("chatId")
+}
