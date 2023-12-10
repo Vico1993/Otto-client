@@ -91,10 +91,10 @@ func (s *ChatService) ListAll() []Chat {
 }
 
 // UpdateParsedTime used to update db
-func (s *ChatService) UpdateParsedTime(chatId string) {
+func (s *ChatService) UpdateParsedTime(chatId string, threadId string) {
 	req, err := http.NewRequest(
 		http.MethodGet,
-		s.client.BaseURL+"/chats/"+chatId+"/parsed",
+		s.client.GetChatUrl(chatId, threadId, "/parsed"),
 		strings.NewReader(
 			string([]byte{}),
 		),
