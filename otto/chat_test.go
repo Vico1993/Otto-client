@@ -92,3 +92,35 @@ func TestChatCreateWithoutThreadId(t *testing.T) {
 
 	assert.Equal(t, expectedResponse, *res, "Chat response must equal to chat expected")
 }
+
+func TestChatGetAll(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
+	chatId := "chatId"
+	userId := "userId"
+	threadId := "threadId"
+	tags := []string{}
+
+	expectedResponse := Chat{
+		Id:               "1",
+		TelegramChatId:   chatId,
+		TelegramUserId:   userId,
+		TelegramThreadId: threadId,
+		Tags:             tags,
+		LastTimeParsed:   nil,
+	}
+
+	mux.HandleFunc("/chats", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a GET
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		out, _ := json.Marshal(&ChatGetAllResponse{Chats: []Chat{expectedResponse}})
+		fmt.Fprint(w, string(out))
+	})
+
+	res := client.Chat.ListAll()
+
+	assert.Len(t, res, 1)
+	assert.Equal(t, res[0].TelegramChatId, chatId)
+}

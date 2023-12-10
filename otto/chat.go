@@ -21,6 +21,10 @@ type ChatCreateResponse struct {
 	Chat Chat `json:"chat"`
 }
 
+type ChatGetAllResponse struct {
+	Chats []Chat `json:"chats"`
+}
+
 type ChatService service
 
 // Create the chat in the Otto API
@@ -39,7 +43,7 @@ func (s *ChatService) Create(chatId string, userId string, threadId string, tags
 	data := []byte(dataStr)
 	req, err := http.NewRequest(
 		http.MethodPost,
-		s.client.BaseURL+"/chats", // TODO: Change ? move this in main.go
+		s.client.BaseURL+"/chats",
 		strings.NewReader(
 			string(data),
 		),
@@ -59,4 +63,29 @@ func (s *ChatService) Create(chatId string, userId string, threadId string, tags
 	_ = json.Unmarshal(body, &res)
 
 	return &res.Chat
+}
+
+// ListAll all chats from the Otto API
+func (s *ChatService) ListAll() []Chat {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		s.client.BaseURL+"/chats",
+		strings.NewReader(
+			string([]byte{}),
+		),
+	)
+	if err != nil {
+		fmt.Println("Error creating the request to list all chats: " + err.Error())
+		return nil
+	}
+
+	body, err := s.client.Do(req)
+	if err != nil {
+		return nil
+	}
+
+	var res ChatGetAllResponse
+	_ = json.Unmarshal(body, &res)
+
+	return res.Chats
 }
