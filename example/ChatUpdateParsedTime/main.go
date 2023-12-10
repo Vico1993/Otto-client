@@ -14,6 +14,5 @@ func main() {
 		baseUrl,
 	)
 
-	client.Chat.UpdateParsedTime("1111")
-	// fmt.Printf("Chat id: %s", chat.Id)
+	client.Chat.UpdateParsedTime("1111", "3")
 }

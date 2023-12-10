@@ -129,6 +129,20 @@ func TestUpdateParsedTime(t *testing.T) {
 	client, mux, _, teardown := setupTest()
 	defer teardown()
 
+	mux.HandleFunc("/chats/chatId/threadId/parsed", func(w http.ResponseWriter, r *http.Request) {
+		// Assert it's a GET
+		assert.Equal(t, r.Method, http.MethodGet)
+
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	client.Chat.UpdateParsedTime("chatId", "threadId")
+}
+
+func TestUpdateParsedTimeWithoutThreadId(t *testing.T) {
+	client, mux, _, teardown := setupTest()
+	defer teardown()
+
 	mux.HandleFunc("/chats/chatId/parsed", func(w http.ResponseWriter, r *http.Request) {
 		// Assert it's a GET
 		assert.Equal(t, r.Method, http.MethodGet)
@@ -136,5 +150,5 @@ func TestUpdateParsedTime(t *testing.T) {
 		w.WriteHeader(http.StatusNoContent)
 	})
 
-	client.Chat.UpdateParsedTime("chatId")
+	client.Chat.UpdateParsedTime("chatId", "")
 }
